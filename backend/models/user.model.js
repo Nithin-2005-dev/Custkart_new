@@ -14,20 +14,22 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: [true, "Email is required for registration"],
+      required: [true, "Password is required for registration"],
     },
     name: {
       type: String,
       required:[true,"Name is required"],
       trim: true,
     },
-    orders: {
-      type: [mongoose.Types.ObjectId],
+    orders: [
+      {
+      type: mongoose.Types.ObjectId,
       ref: "Order",
-    },
+      }
+    ],
     address: {
       type: String,
-      trime: true,
+      trim: true,
     },
     phone: {
       type: String,
