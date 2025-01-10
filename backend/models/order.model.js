@@ -6,14 +6,16 @@ const orderSchema = new mongoose.Schema(
       ref: "User",
       required: [true, "user is required"],
     },
-    products: {
-      type: [mongoose.Types.ObjectId],
-      ref: "Product",
-      required: [true, "products is required"],
-    },
+    products: [
+      {
+        productId: { type: mongoose.Types.ObjectId, ref: "Product", required: true },
+        quantity: { type: Number, required: true },
+        price: { type: Number, required: true },
+      },
+    ],
     totalAmount: {
       type: Number,
-      required: [true, "products is required"],
+      required: [true, "total amount is required"],
     },
     address: {
       type: String,
@@ -24,19 +26,33 @@ const orderSchema = new mongoose.Schema(
       enum: {
         values: ["PAID", "NOT PAID"],
         message: `{VALUE} is not a valid payment status`,
-        default: "NOT PAID",
       },
+      default: "NOT PAID",
     },
     transactionId: {
       type: String,
-      required: [true, "transaction id is required"],
+      required: function () {
+        return this.paymentStatus === "PAID";
+      }, 
+    },
+    orderStatus:{
+      type:String,
+      enum: {
+        values: ["PLACED", "SHIPPED","OUT OF DELIVERY","dELIVERIED","CANCELLED"],
+        message: `{VALUE} is not a valid order status`,
+      },
+      default: "PLACED",
     },
     userNote: {
       type: String,
       default: "No note by user",
     },
+    isCancelled:{
+      type:Boolean,
+      default:false
+    }
   },
   { timestamps: true }
 );
 export const Order =
-  mongoose.models.Order || mongoose.model("Order", userSchema);
+  mongoose.models.Order || mongoose.model("Order", orderSchema);
