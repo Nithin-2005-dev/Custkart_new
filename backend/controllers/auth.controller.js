@@ -4,6 +4,8 @@ import { Otp } from "../models/otp.model.js";
 import { User } from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
+import fs from "fs";
+import path from "path";
 export const registerUser = async (req, res) => {
   try {
     const { email, password, name, phone } = req.body;
@@ -105,7 +107,7 @@ export const verifyMail = async (req, res) => {
         message: "please enter otp",
       });
     }
-    const currentOtp =await Otp.findById(req.params.id);
+    const currentOtp = await Otp.findById(req.params.id);
     if (!currentOtp) {
       return res.status(404).json({
         success: false,
@@ -119,6 +121,7 @@ export const verifyMail = async (req, res) => {
         message: "otp invalid",
       });
     }
+    console.log(currentOtp.expiresAt)
     const isExpired = Date.now() < currentOtp.expiresAt;
     if (!isExpired) {
       await Otp.findByIdAndDelete(req.params.id);
@@ -158,13 +161,7 @@ export const loginUser = async (req, res) => {
         message: "email is not registered",
       });
     }
-    if (!user.isVerified) {
-      return res.status(400).json({
-        success: false,
-        message: "email not verified",
-      });
-    }
-    const isPasswordCorrect =await bcryptjs.compare(password, user.password);
+    const isPasswordCorrect = await bcryptjs.compare(password, user.password);
     if (!isPasswordCorrect) {
       return res.status(401).json({
         success: false,
@@ -172,9 +169,17 @@ export const loginUser = async (req, res) => {
       });
     }
     generateKeys();
+    const publicKey = fs.readFileSync(
+      path.join(process.cwd(), "public.key"),
+      "utf-8"
+    );
+    const privateKey = fs.readFileSync(
+      path.join(process.cwd(), "private.key"),
+      "utf-8"
+    );
     const token = jwt.sign(
       { id: user._id, email: user.email, name: user.name },
-      process.env.JWT_SECRET,
+      privateKey,
       { algorithm: "RS256" }
     );
     if (!token) {
@@ -183,6 +188,8 @@ export const loginUser = async (req, res) => {
         message: "failed to generate token",
       });
     }
+    user.publicKey = publicKey;
+    await user.save();
     return res.status(200).json({
       success: false,
       message: "login successfull",
@@ -197,6 +204,40 @@ export const loginUser = async (req, res) => {
 };
 export const changePassword = async (req, res) => {
   try {
+    const { oldPassword, newPassword } = req.body;
+    if (!oldPassword || !newPassword) {
+      return res.status(400).json({
+        success: false,
+        message: ()=>{
+          return oldPassword?"new password is missing":"old password is missing"
+        },
+      });
+    }
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "user not found",
+      });
+    }
+    const isOldPasswordCorrect = await bcryptjs.compare(
+      oldPassword,
+      user.password
+    );
+    if (!isOldPasswordCorrect) {
+      return res.status(401).json({
+        success: false,
+        message: "old password incorrect",
+      });
+    }
+    const salt = await bcryptjs.genSalt(10);
+    const newHashPassword = await bcryptjs.hash(newPassword, salt);
+    user.password = newHashPassword;
+    await user.save();
+    return res.status(200).json({
+      success: true,
+      message: "password changed successfully",
+    });
   } catch (err) {
     res.status(500).json({
       success: false,
