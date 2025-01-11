@@ -20,7 +20,7 @@ export const registerUser = async (req, res) => {
       return res.status(409).json({
         success: false,
         message:
-          existingUser.email === email
+          user.email === email
             ? "Email is already registered."
             : "Phone number is already registered.",
       });
@@ -66,16 +66,16 @@ export const sendVerificationMail = async (req, res) => {
       });
     }
     const user = await User.findOne({ email });
-    if (user.isVerified) {
-      return res.status(401).json({
-        success: false,
-        message: "email already verified",
-      });
-    }
     if (!user) {
       return res.status(404).json({
         success: false,
         message: "email is not registered",
+      });
+    }
+    if (user.isVerified) {
+      return res.status(401).json({
+        success: false,
+        message: "email already verified",
       });
     }
     const response = await sendOtp(user);
@@ -105,7 +105,7 @@ export const verifyMail = async (req, res) => {
         message: "please enter otp",
       });
     }
-    const currentOtp = await Otp.findById(req.params.id);
+    const currentOtp =await Otp.findById(req.params.id);
     if (!currentOtp) {
       return res.status(404).json({
         success: false,
