@@ -18,14 +18,14 @@ const userSchema = new mongoose.Schema(
     },
     name: {
       type: String,
-      required:[true,"Name is required"],
+      required: [true, "Name is required"],
       trim: true,
     },
     orders: [
       {
-      type: mongoose.Types.ObjectId,
-      ref: "Order",
-      }
+        type: mongoose.Types.ObjectId,
+        ref: "Order",
+      },
     ],
     address: {
       type: String,
@@ -33,16 +33,12 @@ const userSchema = new mongoose.Schema(
     },
     phone: {
       type: String,
-      required:[true,"Phone number is required"],
-      unique:[true,"Phone already exists"]
+      required: [true, "Phone number is required"],
+      unique: [true, "Phone already exists"],
     },
     isVerified: {
       type: Boolean,
       default: false,
-    },
-    publicKey: {
-      type: String,
-      required: [true, "public key required"],
     },
   },
   { timestamps: true }

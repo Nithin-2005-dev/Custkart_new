@@ -38,7 +38,7 @@ const orderSchema = new mongoose.Schema(
     orderStatus:{
       type:String,
       enum: {
-        values: ["PLACED", "SHIPPED","OUT OF DELIVERY","dELIVERIED","CANCELLED"],
+        values: ["PLACED", "SHIPPED","OUT OF DELIVERY","DELIVERIED","CANCELLED"],
         message: `{VALUE} is not a valid order status`,
       },
       default: "PLACED",
