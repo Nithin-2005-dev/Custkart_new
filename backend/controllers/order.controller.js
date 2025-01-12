@@ -1,4 +1,8 @@
-import { orderConformationMail, orderStatusMail } from "../helpers/mailer.js";
+import {
+  orderCancellationRequestMail,
+  orderConformationMail,
+  orderStatusMail,
+} from "../helpers/mailer.js";
 import { Order } from "../models/order.model.js";
 import { Product } from "../models/product.model.js";
 import { User } from "../models/user.model.js";
@@ -43,12 +47,18 @@ export const updateOrderStatus = async (req, res) => {
       });
     }
     if (!req.isAdmin) {
-     return res.status(403).json({
+      return res.status(403).json({
         success: false,
         message: "Admin rights required",
       });
     }
     const order = await Order.findById(orderId).populate("userId");
+    if(!order){
+      return res.status(403).json({
+        success: false,
+        message: "order not found",
+      });
+    }
     if (order.orderStatus == "PLACED" && orderStatus == "SHIPPED") {
       order.orderStatus = "SHIPPED";
       message = "Your order has been shipped";
@@ -96,7 +106,14 @@ export const placeOrder = async (req, res) => {
     if (!userId) {
       return res.status(400).json({
         success: false,
-        message: "user required to place the order",
+        message: "user id required to place the order",
+      });
+    }
+    const user=await User.findById(userId);
+    if(!user){
+      return res.status(404).json({
+        success: false,
+        message: "user should register to place the order",
       });
     }
     if (!Array.isArray(products) || products.length === 0) {
@@ -149,7 +166,13 @@ export const placeOrder = async (req, res) => {
         message: "failed to place the order",
       });
     }
-    await orderConformationMail(order);
+    const response = await orderConformationMail(order);
+    if (!response.success) {
+      res.status(500).json({
+        success: false,
+        message: "something went wrong",
+      });
+    }
     return res.status(200).json({
       success: true,
       message: "order request recieved!Wait for conformation email",
@@ -163,7 +186,62 @@ export const placeOrder = async (req, res) => {
 };
 export const cancelOrder = async (req, res) => {
   try {
-    
+    const orderId = req.params.id;
+    if (!orderId) {
+      return res.status(400).json({
+        success: false,
+        message: "order id required for cancellation",
+      });
+    }
+    const { userId } = req.body;
+    if (!userId) {
+      return res.status(400).json({
+        success: false,
+        message: "user id required to cancel the order",
+      });
+    }
+    const order = await Order.findById(orderId);
+    if(order.userId!=userId){
+      return res.status(400).json({
+        success: false,
+        message: "cancellation request should be send from ordered account",
+      });
+    }
+    if(!order){
+      return res.status(400).json({
+        success: false,
+        message: "order not found",
+      });
+    }
+    if(order.isCancelled){
+      return res.status(400).json({
+        success: false,
+        message: "order already cancelled",
+      });
+    }
+    if (
+      order.orderStatus == "OUT OF DELIVERY" ||
+      order.orderStatus == "DELIVERIED"
+    ) {
+      return res.status(403).json({
+        success: false,
+        message:
+          "Unable to cancel.Either order is out of delivery or deliveried.please contact customer care.",
+      });
+    }
+    const response = await orderCancellationRequestMail(orderId);
+    if (!response.success) {
+      res.status(500).json({
+        success: false,
+        message: "something went wrong!",
+      });
+    }
+    order.orderStatus = "CANCELLATION PENDING";
+    await order.save();
+    res.status(200).json({
+      success: false,
+      message: "cancellation request sent successfully",
+    });
   } catch (err) {
     res.status(500).json({
       success: false,
@@ -188,17 +266,22 @@ export const orderConformation = async (req, res) => {
         message: "Order not found.",
       });
     }
+    if(status!="reject" && (order.orderStatus=="PLACED" || order.orderStatus=="OUT OF DELIVERY" || order.orderStatus=="DELIVERIED")){
+      return res.status(403).json({
+        success: false,
+        message: "order already accepted",
+      });
+    }
     let emailMessage;
     if (status === "accept") {
-      if (order.isAccepted) {
+      if (order.isCancelled) {
         return res.status(403).json({
           success: false,
-          message: "Order is already accepted",
+          message: "Order is already cancelled",
         });
       }
       emailMessage = "Your order has been accepted!";
       order.orderStatus = "PLACED";
-      order.isAccepted = true;
     } else if (status === "reject") {
       if (order.isCancelled) {
         return res.status(403).json({
@@ -207,7 +290,7 @@ export const orderConformation = async (req, res) => {
         });
       }
       emailMessage = "Your order has been rejected!";
-      order.isAccepted = false;
+      order.orderStatus = "CANCELLED";
       order.isCancelled = true;
     } else {
       return res.status(400).json({
@@ -228,6 +311,76 @@ export const orderConformation = async (req, res) => {
         status === "accept" ? "accepted" : "rejected"
       }.`,
       order,
+    });
+  } catch (err) {
+    console.error("Error processing order confirmation:", err);
+    return res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+export const orderCancellationRequest = async (req, res) => {
+  try {
+    const { status } = req.query;
+    const orderId = req.params.id;
+    if (!status || !orderId) {
+      return res.status(400).json({
+        success: false,
+        message: "Status and order ID are required.",
+      });
+    }
+    const order = await Order.findById(orderId);
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: "Order not found.",
+      });
+    }
+    if(order.orderStatus=="CANCELLED"){
+      return res.status(400).json({
+        success: false,
+        message: "Order already cancelled",
+      });
+    }
+    let emailMessage;
+    if (status === "accept") {
+      if (order.isCancelled) {
+        return res.status(403).json({
+          success: false,
+          message: "Order is already cancelled",
+        });
+      }
+      emailMessage = "Your order is cancelled successfully";
+      order.orderStatus = "CANCELLED";
+      order.isCancelled = true;
+    } else if (status === "reject") {
+      if (order.isCancelled) {
+        return res.status(403).json({
+          success: false,
+          message: "Order is already cancelled",
+        });
+      }
+      emailMessage =
+        "Your order cancellation request is rejected!please contact customer care";
+      order.isCancelled = false;
+      order.orderStatus="PLACED"
+    } else {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid status. Use 'accept' or 'reject'.",
+      });
+    }
+    const user = await User.findById(order.userId);
+    await orderStatusMail(
+      emailMessage,
+      user.email,
+      "custkart order Cancellation status email"
+    );
+    await order.save();
+    return res.status(200).json({
+      success: true,
+      message: `response sent successfully`,
     });
   } catch (err) {
     console.error("Error processing order confirmation:", err);

@@ -10,6 +10,12 @@ export const isEmailVerified = async (req, res, next) => {
       });
     }
     const user = await User.findOne({ email });
+    if(!user){
+      return res.status(404).json({
+        success: false,
+        message: "user not registered",
+      });
+    }
     if (!user.isVerified) {
       return res.status(403).json({
         success: false,
