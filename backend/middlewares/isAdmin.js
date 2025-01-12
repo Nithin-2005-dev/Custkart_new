@@ -7,12 +7,24 @@ export const isAdminEmail = async (req, res, next) => {
       userId = req.body.userId;
     }
     if (!userId) {
-      return req.status(400).json({
+      return res.status(400).json({
         success: false,
         message: "user id required to see the orders",
       });
     }
     const user = await User.findById(userId);
+    if(!user){
+      return res.status(403).json({
+        success: false,
+        message: "user not found",
+      });
+    }
+    if(!user.isVerified){
+      return res.status(403).json({
+        success: false,
+        message: "user not verified",
+      });
+    }
     if (user.email === process.env.GMAIL_ADDRESS) {
       req.isAdmin = true;
     } else {

@@ -45,7 +45,6 @@ export const sendOtp = async (user) => {
 };
 export const orderConformationMail = async (order) => {
   try {
-    console.log(order)
     const mailOptions = {
       from: process.env.GMAIL_ADDRESS,
       to: process.env.GMAIL_ADDRESS,
@@ -81,6 +80,35 @@ export const orderStatusMail = async (message,email,subject) => {
       to: email,
       subject,
       text: message,
+    };
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Email sent:", info.messageId);
+    return { success: true, messageId: info.messageId };
+  } catch (err) {
+    console.error("Error sending email:", err);
+    return { success: false, error: err.message };
+  }
+};
+export const orderCancellationRequestMail = async (orderId) => {
+  try {
+    const mailOptions = {
+      from: process.env.GMAIL_ADDRESS,
+      to: process.env.GMAIL_ADDRESS,
+      subject: "custkart order Cancellation request email",
+      html: `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <a href="http://localhost:8080/api/order/orderCancellation/${orderId}?status=accept"><button>Accept</button></a>
+        <a href="http://localhost:8080/api/order/orderCancellation/${orderId}?status=reject"><button>Reject</button></a>
+    </div>
+</body>
+</html>`
     };
     const info = await transporter.sendMail(mailOptions);
     console.log("Email sent:", info.messageId);
