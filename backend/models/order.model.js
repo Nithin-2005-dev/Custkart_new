@@ -1,16 +1,19 @@
 import mongoose from "mongoose";
 const orderSchema = new mongoose.Schema(
   {
-    user: {
+    userId: {
       type: mongoose.Types.ObjectId,
       ref: "User",
       required: [true, "user is required"],
     },
     products: [
       {
-        productId: { type: mongoose.Types.ObjectId, ref: "Product", required: true },
+        productId: {
+          type: mongoose.Types.ObjectId,
+          ref: "Product",
+          required: true,
+        },
         quantity: { type: Number, required: true },
-        price: { type: Number, required: true },
       },
     ],
     totalAmount: {
@@ -28,28 +31,41 @@ const orderSchema = new mongoose.Schema(
         message: `{VALUE} is not a valid payment status`,
       },
       default: "NOT PAID",
+      required: [true, "payment status required"],
     },
     transactionId: {
       type: String,
       required: function () {
         return this.paymentStatus === "PAID";
-      }, 
+      },
     },
-    orderStatus:{
-      type:String,
+    orderStatus: {
+      type: String,
       enum: {
-        values: ["PLACED", "SHIPPED","OUT OF DELIVERY","DELIVERIED","CANCELLED"],
+        values: [
+          "PENDING",
+          "PLACED",
+          "SHIPPED",
+          "OUT OF DELIVERY",
+          "DELIVERIED",
+          "CANCELLED",
+          "CANCELLATION PENDING"
+        ],
         message: `{VALUE} is not a valid order status`,
       },
-      default: "PLACED",
+      default: "PENDING",
     },
     userNote: {
       type: String,
       default: "No note by user",
     },
-    isCancelled:{
-      type:Boolean,
-      default:false
+    isCancelled: {
+      type: Boolean,
+      default: false,
+    },
+    isAccepted:{
+      type: Boolean,
+      default: false,
     }
   },
   { timestamps: true }
