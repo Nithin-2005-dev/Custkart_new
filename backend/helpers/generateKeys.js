@@ -4,7 +4,6 @@ export const generateKeys = () => {
   const { privateKey, publicKey } = generateKeyPairSync("rsa", {
     modulusLength: 2048, 
   });
-
   fs.writeFileSync(
     "private.key",
     privateKey.export({ type: "pkcs1", format: "pem" })

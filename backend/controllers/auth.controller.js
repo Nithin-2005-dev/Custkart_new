@@ -62,7 +62,7 @@ export const sendVerificationMail = async (req, res) => {
   try {
     const { email } = req.body;
     if (!email) {
-      return res.status(401).json({
+      return res.status(400).json({
         success: false,
         message: "email not found",
       });
@@ -81,7 +81,7 @@ export const sendVerificationMail = async (req, res) => {
       });
     }
     const response = await sendOtp(user);
-    if (!response) {
+    if (!response.success) {
       return res.status(500).json({
         success: false,
         message: "otp failed to send",
@@ -90,6 +90,7 @@ export const sendVerificationMail = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "otp sent successfully",
+      otpId:response.otpId
     });
   } catch (err) {
     res.status(500).json({
@@ -102,7 +103,7 @@ export const verifyMail = async (req, res) => {
   try {
     const { otp } = req.body;
     if (!otp) {
-      return res.status(401).json({
+      return res.status(400).json({
         success: false,
         message: "please enter otp",
       });
@@ -116,16 +117,15 @@ export const verifyMail = async (req, res) => {
     }
     const isOtpCorrect = await bcryptjs.compare(otp, currentOtp.otp);
     if (!isOtpCorrect) {
-      return res.status(401).json({
+      return res.status(400).json({
         success: false,
         message: "otp invalid",
       });
     }
-    console.log(currentOtp.expiresAt)
     const isExpired = Date.now() < currentOtp.expiresAt;
     if (!isExpired) {
       await Otp.findByIdAndDelete(req.params.id);
-      return res.status(401).json({
+      return res.status(400).json({
         success: false,
         message: "otp expired",
       });
@@ -149,7 +149,7 @@ export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
-      return res.status(401).json({
+      return res.status(400).json({
         success: false,
         message: "required fields are missing",
       });
@@ -225,7 +225,7 @@ export const changePassword = async (req, res) => {
       user.password
     );
     if (!isOldPasswordCorrect) {
-      return res.status(401).json({
+      return res.status(400).json({
         success: false,
         message: "old password incorrect",
       });
