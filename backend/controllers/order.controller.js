@@ -102,11 +102,25 @@ export const placeOrder = async (req, res) => {
       paymentStatus,
       transactionId,
       userNote,
+      instituteName,
+      clubName
     } = req.body;
     if (!userId) {
       return res.status(400).json({
         success: false,
         message: "user id required to place the order",
+      });
+    }
+    if (!instituteName) {
+      return res.status(400).json({
+        success: false,
+        message: "institute name required to place the order",
+      });
+    }
+    if (!clubName) {
+      return res.status(400).json({
+        success: false,
+        message: "club name required to place the order",
       });
     }
     const user=await User.findById(userId);
@@ -122,7 +136,6 @@ export const placeOrder = async (req, res) => {
         message: "Products are required to place the order",
       });
     }
-    let totalAmount = 0;
     for (const product of products) {
       const fetchedProduct = await Product.findById(product.productId);
       if (!fetchedProduct) {
@@ -137,7 +150,6 @@ export const placeOrder = async (req, res) => {
           message: "Each product must have productId and quantity",
         });
       }
-      totalAmount += fetchedProduct.price * product.quantity;
     }
     if (!address) {
       return res.status(400).json({
@@ -155,10 +167,11 @@ export const placeOrder = async (req, res) => {
       userId,
       products,
       address,
-      totalAmount,
       paymentStatus,
       transactionId,
       userNote,
+      instituteName,
+      clubName
     });
     if (!order) {
       return res.status(500).json({
