@@ -7,6 +7,8 @@ import { Bounce, ToastContainer} from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { AuthStoreProvider } from './store/AuthStore'
 import VerifyEmail from './pages/verifyEmail'
+import About from './pages/About'
+import Orders from './pages/Orders'
 const App = () => {
   return (
     <Router>
@@ -29,6 +31,8 @@ transition={Bounce}
         <Route path='/login' element={<Login/>}/>
         <Route path='/register' element={<Register/>}/>
         <Route path='/verifyEmail' element={<VerifyEmail/>}/>
+        <Route path='/about' element={<About/>}/>
+      <Route path='/orders' element={<Orders/>}/>
       </Routes>
       </AuthStoreProvider>
     </Router>

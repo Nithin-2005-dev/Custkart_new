@@ -64,24 +64,24 @@ const Header = () => {
             }`}
           >
             <div className="flex flex-col -mx-6 lg:flex-row lg:items-center lg:mx-8">
-              <a
-                href="#"
+              <Link
+                to={"/"}
                 className="px-3 py-2 mx-3 mt-2 text-gray-200 transition-colors duration-300 transform rounded-md lg:mt-0 hover:bg-gray-700"
               >
                 Home
-              </a>
-              <a
-                href="#"
+              </Link>
+              <Link
+                to={"/orders"}
                 className="px-3 py-2 mx-3 mt-2 text-gray-200 transition-colors duration-300 transform rounded-md lg:mt-0 hover:bg-gray-700"
               >
                 Orders
-              </a>
-              <a
-                href="#"
+              </Link>
+              <Link
+                to={"/about"}
                 className="px-3 py-2 mx-3 mt-2 text-gray-200 transition-colors duration-300 transform rounded-md lg:mt-0 hover:bg-gray-700"
               >
                 About
-              </a>
+              </Link>
               <a
                 href="#"
                 className="px-3 py-2 mx-3 mt-2 text-gray-200 transition-colors duration-300 transform rounded-md lg:mt-0 hover:bg-gray-700"
