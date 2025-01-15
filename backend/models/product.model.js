@@ -6,10 +6,23 @@ const productSchema = new mongoose.Schema(
       enum: ["POLO", "OVERSIZED"],
       required: [true, "Product type required"],
     },
-    price: {
-      type: Number,
-      required: [true, "product price required"],
+    materialType:{
+      type: String,
+      enum: ["type1", "type2"],
+      required: [true, "Product type required"],
     },
+    imageId:{
+      type: String,
+      required: [true, "image id required"],
+    },
+    designedBy:{
+      type:mongoose.Types.ObjectId,
+      ref:"User"
+    },
+    url:{
+      type: String,
+      required: [true, "image url required"],
+    }
   },
   { timestamps: true }
 );

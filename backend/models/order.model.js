@@ -18,7 +18,6 @@ const orderSchema = new mongoose.Schema(
     ],
     totalAmount: {
       type: Number,
-      required: [true, "total amount is required"],
     },
     address: {
       type: String,
@@ -62,6 +61,14 @@ const orderSchema = new mongoose.Schema(
     isCancelled: {
       type: Boolean,
       default: false,
+    },
+    instituteName: {
+      type: String,
+      required:[true,"Institute name required"],
+    },
+    clubName: {
+      type: String,
+      required:[true,"club name required"],
     },
   },
   { timestamps: true }
