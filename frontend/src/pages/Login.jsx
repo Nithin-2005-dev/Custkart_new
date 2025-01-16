@@ -1,9 +1,15 @@
-import React, { useContext } from "react";
-import { Link } from "react-router";
+import React, { useContext, useEffect } from "react";
+import { Link, useNavigate } from "react-router";
 import { AuthStore } from "../store/AuthStore";
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 const Login = () => {
-    const {loginUser}=useContext(AuthStore);
+    const {loginUser,currentUser}=useContext(AuthStore);
+    const navigate=useNavigate();
+    useEffect(()=>{
+      if(currentUser){
+        navigate("/");
+      }
+    },[currentUser])
   return (
     <div className="min-h-screen flex items-center justify-center  text-gray-100">
     <ToastContainer

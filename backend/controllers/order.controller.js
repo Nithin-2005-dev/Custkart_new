@@ -11,10 +11,9 @@ export const getOrders = async (req, res) => {
     const { userId } = req.params;
     let orders;
     if (req.isAdmin) {
-      orders = await Order.find();
+      orders = await Order.find().populate({path:"products.productId"});;
     } else {
-      orders = await Order.find({ userId });
-      console.log(userId);
+      orders = await Order.find({ userId }).populate({path:"products.productId"});
     }
     if (!orders) {
       return res.status(500).json({
@@ -173,6 +172,8 @@ export const placeOrder = async (req, res) => {
       instituteName,
       clubName
     });
+    user.orders.push(order._id);
+    await user.save();
     if (!order) {
       return res.status(500).json({
         success: false,
