@@ -10,12 +10,12 @@ const otpSchema = new mongoose.Schema({
     required: [true, "otp id required"],
   },
   createdAt: {
-    type: Date,
+    type: String,
     default: Date.now(),
   },
   expiresAt: {
-    type: Date,
-    default: Date.now() + 600000,
+    type: String,
+    default: Date.now ()+ 600000,
   },
 });
 export const Otp=mongoose.models.Otp || mongoose.model("Otp",otpSchema)

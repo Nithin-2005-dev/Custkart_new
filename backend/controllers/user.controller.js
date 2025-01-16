@@ -2,7 +2,7 @@ import { User } from "../models/user.model.js";
 
 export const getUser = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.id).populate("orders");
     if (!user) {
       res.status(404).json({
         success: false,
@@ -13,6 +13,7 @@ export const getUser = async (req, res) => {
       success: true,
       message: "user found.",
       user: {
+        id:user._id,
         email: user.email,
         name: user.name,
         orders: user.orders,

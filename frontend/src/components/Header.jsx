@@ -1,8 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router";
-
+import { AuthStore } from "../store/AuthStore";
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
+import { FaCaretDown, FaCaretUp } from "react-icons/fa";
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const {currentUser,handleLOgOut}=useContext(AuthStore);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const toggleDropdown = () => {
+    setIsDropdownOpen((prev) => !prev);
+  };
   return (
     <nav className="relative bg-gray-800 shadow">
       <div className="container px-6 py-4 mx-auto">
@@ -88,7 +95,29 @@ const Header = () => {
               >
                 Feedback
               </a>
-              <Link to={'/login'} className="px-5 py-2 mx-3 mt-2 text-gray-200 transition-colors duration-300 transform rounded-md lg:mt-0 hover:bg-red-500  text-start  bg-red-600 font-bold w-fit">Login</Link>
+              {currentUser?<div className="relative inline-block text-left">
+      <button
+        onClick={toggleDropdown}
+        className="px-5 py-2 ml-3 mt-2 text-gray-200 transition-colors duration-300 transform rounded-md lg:mt-0 hover:bg-sky-500 bg-sky-600 font-bold w-fit capitalize"
+      >
+        Hello 👋 {currentUser.name} {isDropdownOpen?<FaCaretUp className="text-gray-200 transition-colors duration-300 transform rounded-md  inline-block text-2xl"/>:<FaCaretDown className="text-gray-200 transition-colors duration-300 transform rounded-md  inline-block text-2xl"/>}
+      </button>
+
+      {isDropdownOpen && (
+        <div className="absolute left-3 mt-2 w-40 bg-white rounded-md shadow-lg">
+          <button
+            className="block px-4 py-2 text-gray-700 hover:bg-gray-200 w-full text-left rounded-t-md font-bold"
+          >
+            Profile
+          </button>
+          <button onClick={handleLOgOut}
+            className="block px-4 py-2 text-gray-700 hover:bg-red-600 hover:text-white w-full text-left rounded-b-md font-bold"
+          >
+            Logout
+          </button>
+        </div>
+      )}
+    </div>: <Link to={'/login'} className="px-5 py-2 mx-3 mt-2 text-gray-200 transition-colors duration-300 transform rounded-md lg:mt-0 hover:bg-red-500  text-start  bg-red-600 font-bold w-fit">Login</Link>}
             </div>
           </div>
         </div>

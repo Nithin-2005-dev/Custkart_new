@@ -1,10 +1,12 @@
 import axios from "axios";
-import { createContext } from "react";
+import { createContext, useState } from "react";
 import {jwtDecode} from "jwt-decode"
 import { Bounce, toast } from "react-toastify";
 import { useNavigate } from "react-router";
+import Cookies from "js-cookie";
 export const AuthStore=createContext({});
 export const AuthStoreProvider=({children})=>{
+    const [currentUser,setcurrentUser]=useState();
     const navigate=useNavigate();
     const loginUser=async(e)=>{
         e.preventDefault();
@@ -14,6 +16,7 @@ export const AuthStoreProvider=({children})=>{
             const response=await axios.post(`${import.meta.env.VITE_HOST}/api/auth/login`,{email,password});
            const token=(response.data.token);
            document.cookie=`custkart_token=${token}`;
+           Cookies.set("custkart_token",token,{expires:365});
            toast.success("Login Successfull!", {
             position: "top-right",
             autoClose: 5000,
@@ -111,7 +114,25 @@ export const AuthStoreProvider=({children})=>{
             e.target.userName.value="";
         }
     }
-return <AuthStore.Provider value={{loginUser,registerUser}}>
+    const getUser=async()=>{
+        const token=Cookies.get("custkart_token");
+        if(!token){
+            return false;
+        }
+        const deCodedToken=jwtDecode(token);
+        try{
+            const user=await axios.get(`${import.meta.env.VITE_HOST}/api/user/getUser/${deCodedToken.id}`);
+            setcurrentUser(user.data.user);
+            return true;
+        }catch(err){
+            return false;
+        }
+    }
+    const handleLOgOut=()=>{
+        Cookies.remove("custkart_token");
+        setcurrentUser(null);
+    }
+return <AuthStore.Provider value={{loginUser,registerUser,getUser,currentUser,handleLOgOut}}>
 {children}
 </AuthStore.Provider>
 }

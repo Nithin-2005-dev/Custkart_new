@@ -9,6 +9,7 @@ import { AuthStoreProvider } from './store/AuthStore'
 import VerifyEmail from './pages/verifyEmail'
 import About from './pages/About'
 import Orders from './pages/Orders'
+import { OrderStoreProvider } from './store/OrderStore'
 const App = () => {
   return (
     <Router>
@@ -26,6 +27,7 @@ theme="colored"
 transition={Bounce}
 />
 <AuthStoreProvider>
+<OrderStoreProvider>
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/login' element={<Login/>}/>
@@ -34,6 +36,7 @@ transition={Bounce}
         <Route path='/about' element={<About/>}/>
       <Route path='/orders' element={<Orders/>}/>
       </Routes>
+      </OrderStoreProvider>
       </AuthStoreProvider>
     </Router>
   )
