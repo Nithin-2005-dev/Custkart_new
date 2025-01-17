@@ -7,6 +7,8 @@ const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const {currentUser,handleLOgOut}=useContext(AuthStore);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isOrderDropdownOpen, setOrderIsDropdownOpen] = useState(false);
+
   const toggleDropdown = () => {
     setIsDropdownOpen((prev) => !prev);
   };
@@ -77,12 +79,28 @@ const Header = () => {
               >
                 Home
               </Link>
-              <Link
-                to={"/orders"}
-                className="px-3 py-2 mx-3 mt-2 text-gray-200 transition-colors duration-300 transform rounded-md lg:mt-0 hover:bg-gray-700"
+              <button
+                onClick={()=>{
+                  setOrderIsDropdownOpen(!isOrderDropdownOpen)
+                }}
+                className="px-3 py-2 mx-3 mt-2 text-gray-200 transition-colors duration-300 transform rounded-md lg:mt-0 hover:bg-gray-700 text-start"
               >
                 Orders
-              </Link>
+              </button>
+              {isOrderDropdownOpen && (
+        <div className="absolute left-24 top-24 lg:top-12 mt-2 w-40 bg-white rounded-md shadow-lg z-20">
+          <Link to={"/products"}
+            className="block px-4 py-2 text-gray-700 hover:bg-gray-200 w-full text-left rounded-t-md font-bold"
+          >
+            Place Order
+          </Link>
+          <Link to={"/orders"}
+           className="block px-4 py-2 text-gray-700 hover:bg-gray-200 w-full text-left rounded-t-md font-bold"
+          >
+            Your Orders
+          </Link>
+        </div>
+      )}
               <Link
                 to={"/about"}
                 className="px-3 py-2 mx-3 mt-2 text-gray-200 transition-colors duration-300 transform rounded-md lg:mt-0 hover:bg-gray-700"
@@ -105,11 +123,6 @@ const Header = () => {
 
       {isDropdownOpen && (
         <div className="absolute left-3 mt-2 w-40 bg-white rounded-md shadow-lg">
-          <button
-            className="block px-4 py-2 text-gray-700 hover:bg-gray-200 w-full text-left rounded-t-md font-bold"
-          >
-            Profile
-          </button>
           <button onClick={handleLOgOut}
             className="block px-4 py-2 text-gray-700 hover:bg-red-600 hover:text-white w-full text-left rounded-b-md font-bold"
           >

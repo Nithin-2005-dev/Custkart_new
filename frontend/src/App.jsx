@@ -10,6 +10,9 @@ import VerifyEmail from './pages/verifyEmail'
 import About from './pages/About'
 import Orders from './pages/Orders'
 import { OrderStoreProvider } from './store/OrderStore'
+import Products from './pages/Products'
+import PlaceOrder from './pages/PlaceOrder'
+import Feedback from './pages/Feedback'
 const App = () => {
   return (
     <Router>
@@ -35,6 +38,9 @@ transition={Bounce}
         <Route path='/verifyEmail' element={<VerifyEmail/>}/>
         <Route path='/about' element={<About/>}/>
       <Route path='/orders' element={<Orders/>}/>
+      <Route path='/products' element={<Products/>}/>
+      <Route path='/placeOrder' element={<PlaceOrder/>}/>
+      <Route path='/feedback' element={<Feedback/>}/>
       </Routes>
       </OrderStoreProvider>
       </AuthStoreProvider>

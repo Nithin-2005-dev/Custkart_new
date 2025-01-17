@@ -2,12 +2,12 @@ import React from 'react';
 
 const AboutComponent=()=>{
   return (
-    <section className="max-w-screen-xl mx-auto px-6 py-16 flex flex-col">
-      <h2 className="text-4xl font-extrabold text-gray-800">
+    <section className="max-w-screen-xl mx-auto px-6 py-16 flex flex-col min-h-screen m-auto">
+    <h2 className="text-4xl font-extrabold text-gray-800">
           About Us
         </h2>
-        <br />
     <div className="flex flex-col md:flex-row items-center justify-between gap-16">
+
       <div className="flex-1">
         <img
           src="\src\assets\about.jpg"

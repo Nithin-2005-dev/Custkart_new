@@ -12,6 +12,6 @@ export const orderRouter = express.Router();
 orderRouter.get("/getOrders/:userId", isAdminEmail, getOrders);
 orderRouter.put("/updateOrderStatus/:id", isAdminEmail, updateOrderStatus);
 orderRouter.post("/placeOrder", placeOrder);
-orderRouter.delete("/cancelOrder/:id", cancelOrder);
+orderRouter.post("/cancelOrder/:id", cancelOrder);
 orderRouter.get("/orderConformation/:id", orderConformation);
 orderRouter.get("/orderCancellation/:id", orderCancellationRequest);
