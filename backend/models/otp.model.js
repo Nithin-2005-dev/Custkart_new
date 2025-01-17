@@ -15,7 +15,7 @@ const otpSchema = new mongoose.Schema({
   },
   expiresAt: {
     type: String,
-    default: Date.now ()+ 600000,
+    default: Date.now()+ 600000,
   },
 });
 export const Otp=mongoose.models.Otp || mongoose.model("Otp",otpSchema)

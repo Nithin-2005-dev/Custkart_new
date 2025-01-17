@@ -96,3 +96,25 @@ export const deleteProduct = async (req, res) => {
     });
   }
 };
+export const getProducts=async(req,res)=>{
+  try{
+    const userId=req.params.id;
+    if(!userId){
+      res.status(400).json({
+      success: false,
+      message: "user id required",
+    });
+    }
+    const products=await Product.find({designedBy:userId});
+    res.status(200).json({
+      success: true,
+      message: "Products fetched successfully",
+      products
+    });
+  }catch(err){
+    res.status(500).json({
+      success: false,
+      message: err.message || "Internal Server Error",
+    });
+  }
+}

@@ -180,7 +180,7 @@ export const loginUser = async (req, res) => {
     const token = jwt.sign(
       { id: user._id, email: user.email, name: user.name },
       privateKey,
-      { algorithm: "RS256" }
+      { algorithm: "RS256" },{expiresIn:"365d"}
     );
     if (!token) {
       return res.status(500).json({

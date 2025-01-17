@@ -1,12 +1,12 @@
 import React, { useContext, useEffect } from 'react'
 import Header from '../components/Header'
-import { useNavigate } from 'react-router'
+import PreviousProducts from '../components/PreviousProducts'
 import { AuthStore } from '../store/AuthStore'
-import PreviousOrders from '../components/PreviousOrders'
+import { useNavigate } from 'react-router'
 import Footer from '../components/Footer'
-import { Bounce, ToastContainer } from 'react-toastify'
+import DesignForm from '../components/DesignForm'
 
-const Orders = () => {
+const Products = () => {
     const {getUser}=useContext(AuthStore)
     const navigate=useNavigate();
     useEffect(()=>{
@@ -21,10 +21,13 @@ const Orders = () => {
   return (
     <div>
       <Header/>
-      <PreviousOrders/>
+      <div className='min-h-screen flex flex-col justify-evenly'>
+      <DesignForm/>
+      <PreviousProducts/>
+      </div>
       <Footer/>
     </div>
   )
 }
 
-export default Orders
+export default Products
