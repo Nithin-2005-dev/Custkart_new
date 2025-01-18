@@ -11,7 +11,7 @@ export const getOrders = async (req, res) => {
     const { userId } = req.params;
     let orders;
     if (req.isAdmin) {
-      orders = await Order.find().populate({path:"products.productId"});;
+      orders = await Order.find().populate({path:"products.productId"}).populate("userId");
     } else {
       orders = await Order.find({ userId }).populate({path:"products.productId"});
     }

@@ -17,13 +17,13 @@ const Header = () => {
       <div className="container px-6 py-4 mx-auto">
         <div className="lg:flex lg:items-center lg:justify-between">
           <div className="flex items-center justify-between">
-            <a href="#">
+            <Link to={"/"}>
               <img
                 className="w-auto scale-125 h-8 sm:h-7"
                 src="\src\assets\CustKart Logo.png"
                 alt="CustKart Logo"
               />
-            </a>
+            </Link>
 
             <div className="flex lg:hidden">
               <button
@@ -107,12 +107,12 @@ const Header = () => {
               >
                 About
               </Link>
-              <a
-                href="#"
+              <Link
+                to={"/feedback"}
                 className="px-3 py-2 mx-3 mt-2 text-gray-200 transition-colors duration-300 transform rounded-md lg:mt-0 hover:bg-gray-700"
               >
                 Feedback
-              </a>
+              </Link>
               {currentUser?<div className="relative inline-block text-left">
       <button
         onClick={toggleDropdown}

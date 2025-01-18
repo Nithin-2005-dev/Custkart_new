@@ -136,7 +136,7 @@ export const OrderStoreProvider=({children})=>{
         const formData=new FormData();
         formData.append("image",e.target.image.files[0]);
         try{
-            const response=await axios.post(`${import.meta.env.VITE_HOST}/api/product/addProduct?productType=${e.target.productType.value}&materialType=${e.target.materialType.value}&designedBy=${currentUser.id}`,formData,formData,
+            const response=await axios.post(`${import.meta.env.VITE_HOST}/api/product/addProduct?designedBy=${currentUser.id}`,formData,formData,
                 {
                   headers: {
                     "Content-Type": "multipart/form-data",

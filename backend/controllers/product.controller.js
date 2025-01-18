@@ -5,13 +5,13 @@ import { unlink } from "fs/promises";
 
 export const addProduct = async (req, res) => {
   try {
-    const { productType, materialType, designedBy } = req.query;
+    const { designedBy } = req.query;
 
-    if (!productType || !materialType || !designedBy) {
+    if (!designedBy) {
       return res.status(400).json({
         success: false,
         message:
-          "Missing required fields: productType, materialType, or designedBy.",
+          "user required!",
       });
     }
 
@@ -41,8 +41,6 @@ export const addProduct = async (req, res) => {
     }
 
     const product = await Product.create({
-      productType,
-      materialType,
       url,
       imageId: publicId,
       designedBy,
