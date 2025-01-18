@@ -6,6 +6,8 @@ import {
 import { Order } from "../models/order.model.js";
 import { Product } from "../models/product.model.js";
 import { User } from "../models/user.model.js";
+import dotenv from "dotenv";
+dotenv.config();
 export const getOrders = async (req, res) => {
   try {
     const { userId } = req.params;
@@ -214,13 +216,22 @@ export const cancelOrder = async (req, res) => {
         message: "user id required to cancel the order",
       });
     }
-    const order = await Order.findById(orderId);
-    if(order.userId!=userId){
+    const user=await User.findById(userId);
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "user not found",
+      });
+    }
+    const order = await Order.findById(orderId).populate("userId");
+    if(user.email!=process.env.GMAIL_ADDRESS){
+    if((order.userId._id!=userId) ){
       return res.status(400).json({
         success: false,
         message: "cancellation request should be send from ordered account",
       });
     }
+  }
     if(!order){
       return res.status(400).json({
         success: false,

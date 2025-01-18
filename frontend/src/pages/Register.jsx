@@ -1,9 +1,11 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link } from 'react-router'
 import { AuthStore } from '../store/AuthStore'
 import { Bounce, ToastContainer } from 'react-toastify';
+import { ClipLoader } from 'react-spinners';
 
 const Register = () => {
+      const [loader,setLoader]=useState(false)
   const {registerUser}=useContext(AuthStore);
   return (
     <div className="min-h-screen flex items-center justify-center  text-gray-100">
@@ -30,7 +32,11 @@ transition={Bounce}
           <p className="text-slate-500 font-mono font-bold">"Shop smart,Live better"</p>
           <h1 className="text-3xl font-bold mt-2 text-sky-500">Register</h1>
         </div>
-        <form className="space-y-6" onSubmit={registerUser}>
+        <form className="space-y-6" onSubmit={async(e)=>{
+            setLoader(true)
+           await registerUser(e);
+            setLoader(false);
+            }}>
         <div>
             <label htmlFor="userName" className="block text-sm font-medium text-slate-800">
               User Name
@@ -83,12 +89,19 @@ transition={Bounce}
 
          
 
-          <button
+          {
+                loader?<button
+            type="submit"
+            className="w-full px-4 py-2 font-bold text-white bg-green-600 rounded-md hover:bg-green-700 " disabled
+          >
+            <ClipLoader color="#f9f8f8" size={20} />
+          </button>:<button
             type="submit"
             className="w-full px-4 py-2 font-bold text-white bg-green-600 rounded-md hover:bg-green-700 "
           >
             Register
           </button>
+            }
         </form>
         <p className="text-sm text-center text-black">
           Already have an account?{" "}

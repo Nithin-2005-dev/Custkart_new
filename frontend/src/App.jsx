@@ -1,5 +1,5 @@
 import React from 'react'
-import {BrowserRouter as Router,Routes,Route} from "react-router-dom"
+import {BrowserRouter as Router,Routes,Route, Form} from "react-router-dom"
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
@@ -13,6 +13,7 @@ import { OrderStoreProvider } from './store/OrderStore'
 import Products from './pages/Products'
 import PlaceOrder from './pages/PlaceOrder'
 import Feedback from './pages/Feedback'
+import ForgotPassword from './pages/ForgotPassword'
 const App = () => {
   return (
     <Router>
@@ -41,7 +42,9 @@ transition={Bounce}
       <Route path='/products' element={<Products/>}/>
       <Route path='/placeOrder' element={<PlaceOrder/>}/>
       <Route path='/feedback' element={<Feedback/>}/>
+      <Route path='/forgotPassword' element={<ForgotPassword/>}/>
       </Routes>
+      
       </OrderStoreProvider>
       </AuthStoreProvider>
     </Router>

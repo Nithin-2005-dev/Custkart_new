@@ -7,6 +7,7 @@ import { userRouter } from "./routes/user.routes.js";
 import { authRouter } from "./routes/auth.routes.js";
 import { orderRouter } from "./routes/order.routes.js";
 import { productRouter } from "./routes/product.routes.js";
+import { feedbackRouter } from "./routes/feedback.routes.js";
 dotenv.config();
 const server = express();
 //datebase
@@ -19,6 +20,7 @@ server.use("/api/user", userRouter);
 server.use("/api/auth", authRouter);
 server.use("/api/order", orderRouter);
 server.use("/api/product", productRouter);
+server.use("/api/feedback", feedbackRouter);
 server.listen(process.env.PORT, (port) => {
   console.log(
     chalk.blue.bold(`Server is listening on port ${process.env.PORT}`)

@@ -101,6 +101,41 @@ export const sendVerificationMail = async (req, res) => {
     });
   }
 };
+export const sendForgotPasswordMail = async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        message: "email not found",
+      });
+    }
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "email is not registered",
+      });
+    }
+    const response = await sendOtp(user);
+    if (!response.success) {
+      return res.status(500).json({
+        success: false,
+        message: "otp failed to send",
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: "otp sent successfully",
+      otpId:response.otpId
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
 export const verifyMail = async (req, res) => {
   try {
     const { otp } = req.body;
@@ -238,6 +273,61 @@ export const changePassword = async (req, res) => {
     user.password = newHashPassword;
     await user.save();
     return res.status(200).json({
+      success: true,
+      message: "password changed successfully",
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+export const ForgotPasswordMail = async (req, res) => {
+  try {
+    const { otp,newPassword } = req.body;
+    if (!otp) {
+      return res.status(400).json({
+        success: false,
+        message: "please enter otp",
+      });
+    }
+    if (!otp) {
+      return res.status(400).json({
+        success: false,
+        message: "please enter new password",
+      });
+    }
+    const currentOtp = await Otp.findById(req.params.id);
+    if (!currentOtp) {
+      return res.status(404).json({
+        success: false,
+        message: "otp not generated",
+      });
+    }
+    const isOtpCorrect = await bcryptjs.compare(otp, currentOtp.otp);
+    if (!isOtpCorrect) {
+      return res.status(400).json({
+        success: false,
+        message: "otp invalid",
+      });
+    }
+    const isExpired = Date.now() < currentOtp.expiresAt;
+    if (!isExpired) {
+      await Otp.findByIdAndDelete(req.params.id);
+      return res.status(400).json({
+        success: false,
+        message: "otp expired",
+      });
+    }
+    const user = await User.findById(currentOtp.userId);
+    console.log(user)
+    const salt=await bcryptjs.genSalt(10);
+    const newhashedPassword=await bcryptjs.hash(newPassword,salt);
+    user.password=newhashedPassword;
+    await user.save();
+    await Otp.findByIdAndDelete(req.params.id);
+    res.status(200).json({
       success: true,
       message: "password changed successfully",
     });
