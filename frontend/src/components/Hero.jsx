@@ -7,7 +7,7 @@ const Hero = () => {
       <div className="items-center lg:flex">
         <div className="w-full lg:w-1/2">
           <div className="lg:max-w-lg">
-            <h1 className="text-5xl font-semibold text-gray-800 lg:text-7xl">
+            <h1 className="text-6xl text-center font-semibold text-gray-800 lg:text-start lg:text-8xl">
               Your Wish? <br /> We{" "}
               <span className="text-blue-500">Design</span>
             </h1>

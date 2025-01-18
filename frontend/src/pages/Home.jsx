@@ -13,8 +13,10 @@ const Home = () => {
   return (
     <div >
       <Header></Header>
+      <div className='min-h-screen'>
       <Hero/>
       <Testimonials/>
+      </div>
       <Footer/>
     </div>
   )

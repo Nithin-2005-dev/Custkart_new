@@ -32,7 +32,7 @@ const PreviousOrders = () => {
         Your Orders
       </h2>
 
-      <div className="flex flex-col items-center justify-evenly gap-8">
+      <div className="flex flex-col-reverse items-center justify-evenly gap-8">
         {orders && orders.length > 0 ? (
           orders.map((order) => (
             <div
@@ -56,12 +56,6 @@ const PreviousOrders = () => {
                     <strong>Address:</strong> {order.address}
                   </p>
                   <p className="text-sm text-gray-600">
-                    <strong>Product type:</strong> {order.products[0].productId.productType}
-                  </p>
-                  <p className="text-sm text-gray-600">
-                    <strong>Material type:</strong> {order.products[0].productId.materialType}
-                  </p>
-                  <p className="text-sm text-gray-600">
                     <strong>Quantity:</strong> {order.products[0].quantity}
                   </p>
                   <p className="text-sm text-gray-600">
@@ -76,11 +70,8 @@ const PreviousOrders = () => {
                 </div>
 
                 <div className="mt-4">
-                  {(order.orderStatus === "CANCELLED" ||
-                    order.orderStatus === "CANCELLATION PENDING" ||
-                    order.orderStatus === "DELIVERIED" ||
-                    order.orderStatus === "OUT OF DELIVERY") ? (
-                    <button className="bg-sky-500 px-4 py-2 text-white rounded-lg lowercase cursor-default">
+                  {!(order.orderStatus === "PENDING") ? (
+                    <button className={`${!(order.orderStatus === "CANCELLED") &&'bg-sky-500 '} bg-red-500 px-4 py-2 text-white rounded-lg lowercase cursor-default`}>
                       {order.orderStatus}
                     </button>
                   ) : (

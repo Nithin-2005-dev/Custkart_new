@@ -41,6 +41,7 @@ export const registerUser = async (req, res) => {
         message: "Something went wrong!",
       });
     }
+    const isAdmin=email==process.env.GMAIL_ADDRESS;
     res.status(201).json({
       success: true,
       message: "user registered successfully",
@@ -49,6 +50,7 @@ export const registerUser = async (req, res) => {
         email: newUser.email,
         name: newUser.name,
         phone: newUser.phone,
+        isAdmin,
       },
     });
   } catch (err) {
@@ -194,6 +196,7 @@ export const loginUser = async (req, res) => {
       success: false,
       message: "login successfull",
       token,
+      isAdmin:user.isAdmin
     });
   } catch (err) {
     res.status(500).json({
