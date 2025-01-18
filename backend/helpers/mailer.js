@@ -118,3 +118,33 @@ export const orderCancellationRequestMail = async (orderId) => {
     return { success: false, error: err.message };
   }
 };
+export const sendFeedbackMail = async (user,message) => {
+  try {
+    const mailOptions = {
+      from: process.env.GMAIL_ADDRESS,
+      to: process.env.GMAIL_ADDRESS,
+      subject: "Feedback mail",
+      html:`<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <p>feedback from ${user.name}</p>
+        <p>Email: ${user.email}</p>
+        <p>feedback: ${message}</p>
+    </div>
+</body>
+</html>`
+    };
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Email sent:", info.messageId);
+    return { success: true, messageId: info.messageId };
+  } catch (err) {
+    console.error("Error sending email:", err);
+    return { success: false, error: err.message };
+  }
+};

@@ -1,8 +1,10 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { AuthStore } from "../store/AuthStore";
 import { Bounce, ToastContainer, toast } from 'react-toastify';
+import { ClipLoader } from "react-spinners";
 const Login = () => {
+    const [loader,setLoader]=useState(false)
     const {loginUser,currentUser}=useContext(AuthStore);
     const navigate=useNavigate();
     useEffect(()=>{
@@ -36,7 +38,11 @@ transition={Bounce}
           <h1 className="text-3xl font-bold mt-2 text-sky-500">Log In</h1>
         </div>
 
-        <form className="space-y-6" onSubmit={loginUser}>
+        <form className="space-y-6" onSubmit={async(e)=>{
+            setLoader(true)
+           await loginUser(e);
+            setLoader(false);
+            }}>
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-slate-800">
               Email Address
@@ -64,17 +70,24 @@ transition={Bounce}
           </div>
 
           <div className="text-right">
-            <a href="#" className="text-sm text-blue-400 hover:underline">
+            <Link to={"/forgotPassword"} className="text-sm text-blue-400 hover:underline">
               Forgot Password?
-            </a>
+            </Link>
           </div>
 
-          <button
+          {
+                loader?<button
+            type="submit"
+            className="w-full px-4 py-2 font-bold text-white bg-green-600 rounded-md hover:bg-green-700 " disabled
+          >
+            <ClipLoader color="#f9f8f8" size={20} />
+          </button>:<button
             type="submit"
             className="w-full px-4 py-2 font-bold text-white bg-green-600 rounded-md hover:bg-green-700 "
           >
             Login
           </button>
+            }
         </form>
         <p className="text-sm text-center text-black">
           Don't have an account?{" "}

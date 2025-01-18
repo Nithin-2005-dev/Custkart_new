@@ -1,8 +1,10 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Bounce, ToastContainer } from 'react-toastify'
 import { OrderStore } from '../store/OrderStore'
 import { useNavigate } from 'react-router'
+import { ClipLoader } from 'react-spinners'
 const PlaceOrderForm = () => {
+  const [loader,setLoader]=useState(false)
   const {placeOrder,handlePlaceOrder}=useContext(OrderStore);
   const navigate=useNavigate();
   useEffect(()=>{
@@ -36,7 +38,11 @@ transition={Bounce}
           <h1 className="text-3xl font-bold mt-2 text-sky-500">Place Order</h1>
         </div>
 
-        <form className="space-y-6" onSubmit={handlePlaceOrder}>
+        <form className="space-y-6" onSubmit={async(e)=>{
+            setLoader(true)
+           await handlePlaceOrder(e);
+            setLoader(false);
+            }}>
         <p className='text-black my-2'><strong>Product Id:</strong>{placeOrder?._id}</p>
         <div>
             <label htmlFor="quantity" className="block text-sm font-medium text-slate-800">
@@ -99,12 +105,19 @@ transition={Bounce}
               className="w-full px-4 py-2 mt-2 text-gray-900 rounded-md bg-gray-100 focus:ring-2 focus:ring-orange-500 focus:outline-none"
             />
           </div>
-          <button
+          {
+                loader?<button
+            type="submit"
+            className="w-full px-4 py-2 font-bold text-white bg-green-600 rounded-md hover:bg-green-700 " disabled
+          >
+            <ClipLoader color="#f9f8f8" size={20} />
+          </button>:<button
             type="submit"
             className="w-full px-4 py-2 font-bold text-white bg-green-600 rounded-md hover:bg-green-700 "
           >
             Place Order
           </button>
+            }
         </form>
       </div>
     </div>

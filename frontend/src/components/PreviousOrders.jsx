@@ -1,9 +1,11 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { OrderStore } from "../store/OrderStore";
 import { AuthStore } from "../store/AuthStore";
 import { Bounce, ToastContainer } from "react-toastify";
+import { ClipLoader } from "react-spinners";
 
 const PreviousOrders = () => {
+    const [loader,setLoader]=useState(false)
   const { orders, getOrders, handleCancelOrder } = useContext(OrderStore);
   const { currentUser } = useContext(AuthStore);
 
@@ -75,9 +77,19 @@ const PreviousOrders = () => {
                       {order.orderStatus}
                     </button>
                   ) : (
+                    loader?
                     <button
                       className="bg-red-500 px-4 py-2 text-white rounded-lg"
-                      onClick={() => handleCancelOrder(order._id)}
+                      disabled
+                    >
+            <ClipLoader color="#f9f8f8" size={20} />
+                    </button>:<button
+                      className="bg-red-500 px-4 py-2 text-white rounded-lg"
+                      onClick={async() => {
+                      setLoader(true)
+                      await handleCancelOrder(order._id)
+                      setLoader(false)
+                      }}
                     >
                       Cancel order
                     </button>
