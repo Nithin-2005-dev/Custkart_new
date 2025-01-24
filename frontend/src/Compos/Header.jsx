@@ -13,7 +13,7 @@ const Header = () => {
     setIsDropdownOpen((prev) => !prev);
   };
   return (
-    <nav className="relative bg-gray-800 shadow">
+    <nav className="relative bg-[#222831] shadow">
       <div className="container px-6 py-4 mx-auto">
         <div className="lg:flex lg:items-center lg:justify-between">
           <div className="flex items-center justify-between">
@@ -68,7 +68,7 @@ const Header = () => {
           </div>
 
           <div
-            className={`absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-gray-800 lg:mt-0 lg:p-0 lg:top-0 lg:relative lg:w-auto lg:opacity-100 lg:translate-x-0 lg:flex lg:items-center ${
+            className={`absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-[#222831] lg:mt-0 lg:p-0 lg:top-0 lg:relative lg:w-auto lg:opacity-100 lg:translate-x-0 lg:flex lg:items-center ${
               isOpen ? "translate-x-0 opacity-100" : "opacity-0 -translate-x-full"
             }`}
           >

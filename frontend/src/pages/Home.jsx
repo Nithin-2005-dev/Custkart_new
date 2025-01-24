@@ -1,9 +1,10 @@
 import React, { useContext, useEffect } from 'react'
-import Header from '../components/Header'
-import Hero from '../components/Hero'
-import Testimonials from '../components/Testimonials'
-import Footer from '../components/Footer'
+import Testimonials from '../Compos/Testimonials'
 import { AuthStore } from '../store/AuthStore'
+import Header from '../Compos/Header'
+import { Slider } from '../Compos/Slider'
+import Hero from '../Compos/Hero'
+import Footer from '../Compos/Footer'
 
 const Home = () => {
       const {getUser}=useContext(AuthStore)
@@ -13,7 +14,8 @@ const Home = () => {
   return (
     <div >
       <Header></Header>
-      <div className='min-h-screen'>
+      <div className='min-h-screen flex flex-col gap-2'>
+      <Slider/>
       <Hero/>
       <Testimonials/>
       </div>

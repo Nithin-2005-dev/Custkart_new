@@ -1,10 +1,10 @@
 import React, { useContext, useEffect } from 'react'
-import Header from '../components/Header'
-import PreviousProducts from '../components/PreviousProducts'
+import Header from '../Compos/Header'
+import PreviousProducts from '../Compos/PreviousProducts'
 import { AuthStore } from '../store/AuthStore'
 import { useNavigate } from 'react-router'
-import Footer from '../components/Footer'
-import DesignForm from '../components/DesignForm'
+import Footer from '../Compos/Footer'
+import DesignForm from '../Compos/DesignForm'
 
 const Products = () => {
     const {getUser}=useContext(AuthStore)

@@ -1,7 +1,7 @@
 import React from 'react'
-import Header from '../components/Header'
-import FeedbackForm from '../components/FeedbackForm'
-import Footer from '../components/Footer'
+import Header from '../Compos/Header'
+import FeedbackForm from '../Compos/FeedbackForm'
+import Footer from '../Compos/Footer'
 
 const Feedback = () => {
   return (

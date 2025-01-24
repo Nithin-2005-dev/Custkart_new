@@ -1,6 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@plugin "flowbite/plugin";
 body{
-    background-color: rgb(220, 219, 219);
+    background-color: #393E46;
+}
+::-webkit-scrollbar{
+    background-color: #5b616beb;
+}
+::-webkit-scrollbar-thumb{
+    background-color: rgb(173, 175, 177);
+    border-radius: 10rem;
 }

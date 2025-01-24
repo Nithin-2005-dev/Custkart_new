@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
-import Header from '../components/Header'
-import PlaceOrderForm from '../components/PlaceOrderForm'
-import Footer from '../components/Footer'
+import Header from '../Compos/Header'
+import PlaceOrderForm from '../Compos/PlaceOrderForm'
+import Footer from '../Compos/Footer'
 
 const PlaceOrder = () => {
   return (

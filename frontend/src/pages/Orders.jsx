@@ -1,9 +1,9 @@
 import React, { useContext, useEffect } from 'react'
-import Header from '../components/Header'
+import Header from '../Compos/Header'
 import { useNavigate } from 'react-router'
 import { AuthStore } from '../store/AuthStore'
-import PreviousOrders from '../components/PreviousOrders'
-import Footer from '../components/Footer'
+import PreviousOrders from '../Compos/PreviousOrders'
+import Footer from '../Compos/Footer'
 import { Bounce, ToastContainer } from 'react-toastify'
 
 const Orders = () => {
