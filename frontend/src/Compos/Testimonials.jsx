@@ -1,13 +1,19 @@
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
+import { FlipText } from "../components/components/ui/flip-text";
 import React from "react";
 import Slider from "react-slick";
+import { useInView } from "react-intersection-observer";
 
 function Testimonials() {
+  const { ref: headingRef, inView: headingInView } = useInView({
+    triggerOnce: false,
+    threshold: 0.5, 
+  });
+
   const settings = {
     infinite: true,
-    slidesToShow: 3,  // Default for larger screens
+    slidesToShow: 3, // Default for larger screens
     slidesToScroll: 1,
     speed: 500,
     centerMode: false,
@@ -46,8 +52,16 @@ function Testimonials() {
 
   return (
     <div className="max-w-full mx-auto mt-10 px-4 scale-x-75 sm:scale-95">
-      <h2 className="text-3xl font-bold text-center mb-8 text-white">Our Testimonials</h2>
+      {/* Animated Heading */}
+      <div
+        ref={headingRef}
+        className={`text-3xl font-bold text-center mb-8 text-white transition-transform duration-500
+        }`}
+      >
+       {!headingInView?<div className="p-4"></div>: <FlipText word="Our Testimonals" />}
+      </div>
 
+      {/* Slider Section */}
       <Slider {...settings}>
         {/* Card 1 */}
         <div>

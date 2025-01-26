@@ -54,6 +54,7 @@ export const OrderStoreProvider=({children})=>{
             setTimeout(()=>{
                 navigate("/orders")
             },4000);
+            return true;
         }catch(err){
             if(err.response){
                 toast.error(err.response?.data.message, {
@@ -79,6 +80,7 @@ export const OrderStoreProvider=({children})=>{
                         theme: "colored",
                         transition: Bounce
                         });
+            return false;
                 }
         }finally{
         e.target.address.value="";

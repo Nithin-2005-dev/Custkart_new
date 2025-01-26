@@ -101,11 +101,11 @@ const DesignForm = () => {
 
   return (
     <div className="max-w-2xl mx-auto p-8 rounded-lg m-3">
-      <h2 className="text-4xl font-extrabold mb-6 text-center text-gray-800">Add Design</h2>
+      <h2 className="text-4xl font-extrabold mb-6 text-center text-white">Add Design</h2>
       <form onSubmit={handleSubmit}>
         <div
           className={`mb-8 p-8 border-4 ${
-            isDragging ? "border-blue-500 bg-blue-50" : "border-gray-300 bg-gray-100"
+            isDragging ? "border-blue-500 bg-[#EEEEEE]" : "border-gray-300 bg-[#EEEEEE]"
           } border-dashed rounded-xl text-center cursor-pointer`}
           onDrop={handleDrop}
           onDragOver={handleDragOver}
@@ -159,16 +159,16 @@ const DesignForm = () => {
 
         {loader ? (
           <button
-            type="submit"
-            className="w-full px-4 py-2 font-bold text-white bg-green-600 rounded-md hover:bg-green-700"
-            disabled
-          >
-            <ClipLoader color="#f9f8f8" size={20} />
-          </button>
+  type="submit"
+  className="btn-15 border-white text-white"
+  disabled
+>
+  <ClipLoader color="#FFFFFF" size={20} />
+</button>
         ) : (
           <button
             type="submit"
-            className="w-full px-4 py-2 font-bold text-white bg-green-600 rounded-md hover:bg-green-700"
+            className="btn-15 bg-green-600 text-white "
           >
             Add Design
           </button>

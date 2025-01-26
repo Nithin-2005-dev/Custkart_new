@@ -3,7 +3,7 @@ import React from 'react';
 const AboutComponent=()=>{
   return (
     <section className="max-w-screen-xl mx-auto px-6 py-16 flex flex-col min-h-screen m-auto">
-    <h2 className="text-4xl font-extrabold text-gray-800">
+    <h2 className="text-4xl font-extrabold text-gray-800 my-4">
           About Us
         </h2>
     <div className="flex flex-col md:flex-row items-center justify-between gap-16">
@@ -16,7 +16,7 @@ const AboutComponent=()=>{
         />
       </div>
       <div className="flex-1 space-y-6">
-        <p className="text-lg md:text-xl mt-4 text-gray-700">
+        <p className="text-lg md:text-xl mt-4 text-white">
                   CUSTKART MERCHANDISE PRIVATE LIMITED was founded on June 10th, 2020.
                   Custkart has made a name for itself in the list of top suppliers of
                   Round Neck T-Shirt and Men's Round Neck T-Shirt in India. The
@@ -38,7 +38,7 @@ const AboutComponent=()=>{
         <br />
         <div className="flex flex-col lg:flex-row gap-8 p-6">
   <div className="flex-1">
-    <ul className="list-disc pl-6 text-lg font-medium text-gray-800 space-y-4">
+    <ul className="list-disc pl-6 text-lg font-medium text-white space-y-4">
       <li>
         <strong>Legal Name:</strong> CUSTKART MERCHANDISE PRIVATE LIMITED
       </li>

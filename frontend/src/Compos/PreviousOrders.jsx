@@ -14,9 +14,15 @@ const PreviousOrders = () => {
       getOrders();
     }
   }, [currentUser]);
-
+if (!orders) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <ClipLoader color="#000000" size={40} />
+      </div>
+    );
+  }
   return (
-    <div className="min-h-screen bg-gray-50 p-4">
+    <div className="min-h-screen  p-4">
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -30,7 +36,7 @@ const PreviousOrders = () => {
         theme="colored"
         transition={Bounce}
       />
-      <h2 className="text-4xl font-extrabold text-gray-800 text-center p-4">
+      <h2 className="text-4xl font-extrabold text-white text-center p-4">
         Your Orders
       </h2>
 

@@ -123,6 +123,11 @@ const Header = () => {
 
       {isDropdownOpen && (
         <div className="absolute left-3 mt-2 w-40 bg-white rounded-md shadow-lg">
+        <Link to={"/profile"}
+            className="block px-4 py-2 text-gray-700 hover:bg-blue-400 hover:text-white w-full text-left rounded-b-md font-bold"
+          >
+            Profile
+          </Link>
           <button onClick={handleLOgOut}
             className="block px-4 py-2 text-gray-700 hover:bg-red-600 hover:text-white w-full text-left rounded-b-md font-bold"
           >

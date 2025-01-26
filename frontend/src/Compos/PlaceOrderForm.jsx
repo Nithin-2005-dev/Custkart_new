@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Bounce, ToastContainer } from 'react-toastify'
+import confetti from "canvas-confetti";
 import { OrderStore } from '../store/OrderStore'
 import { useNavigate } from 'react-router'
 import { ClipLoader } from 'react-spinners'
@@ -12,6 +13,35 @@ const PlaceOrderForm = () => {
       navigate("/products")
   }
   },[placeOrder])
+  const handleClick = () => {
+    const end = Date.now() + 3 * 1000; // 3 seconds
+    const colors = ["#a786ff", "#fd8bbc", "#eca184", "#f8deb1"];
+ 
+    const frame = () => {
+      if (Date.now() > end) return;
+ 
+      confetti({
+        particleCount: 2,
+        angle: 60,
+        spread: 55,
+        startVelocity: 60,
+        origin: { x: 0, y: 0.5 },
+        colors: colors,
+      });
+      confetti({
+        particleCount: 2,
+        angle: 120,
+        spread: 55,
+        startVelocity: 60,
+        origin: { x: 1, y: 0.5 },
+        colors: colors,
+      });
+ 
+      requestAnimationFrame(frame);
+    };
+ 
+    frame();
+  };
   return (
     <div className="min-h-screen flex items-center justify-center  text-gray-100 my-5">
     <ToastContainer
@@ -40,7 +70,10 @@ transition={Bounce}
 
         <form className="space-y-6" onSubmit={async(e)=>{
             setLoader(true)
-           await handlePlaceOrder(e);
+          const res= await handlePlaceOrder(e);
+          if(res){
+            handleClick();
+          }
             setLoader(false);
             }}>
         <p className='text-black my-2'><strong>Product Id:</strong>{placeOrder?._id}</p>

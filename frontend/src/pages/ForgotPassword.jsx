@@ -3,6 +3,7 @@ import { Link } from 'react-router'
 import { Bounce, ToastContainer } from 'react-toastify'
 import { sendForgotPasswordOtp, sendOtp, verifyForgotPasswordEmail } from '../store/AuthStore'
 import { ClipLoader } from 'react-spinners'
+import { RetroGrid } from '../components/components/ui/retro-grid'
 
 const ForgotPassword = () => {
       const [loader,setLoader]=useState(false);
@@ -13,6 +14,7 @@ const ForgotPassword = () => {
     const [otp,setOtp]=useState();
   return (
     <div className="min-h-screen flex items-center justify-center  text-gray-100">
+   <RetroGrid lightLineColor="black" opacity={1} cellSize={80}/>
     <ToastContainer
 position="top-right"
 autoClose={5000}
@@ -26,7 +28,7 @@ pauseOnHover
 theme="colored"
 transition={Bounce}
 />
-      <div className="w-full max-w-md p-8  rounded-lg shadow-lg shadow-slate-500 bg-gray-300">
+      <div className="w-full max-w-md p-8  rounded-lg shadow-lg shadow-slate-500 bg-gray-300 z-50">
         <div className="text-center">
           <img
             src="\src\assets\CustKart Logo.png"

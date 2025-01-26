@@ -14,6 +14,7 @@ import Products from './pages/Products'
 import PlaceOrder from './pages/PlaceOrder'
 import Feedback from './pages/Feedback'
 import ForgotPassword from './pages/ForgotPassword'
+import Profile from './pages/Profile'
 
 const App = () => {
   return (
@@ -44,6 +45,7 @@ transition={Bounce}
       <Route path='/placeOrder' element={<PlaceOrder/>}/>
       <Route path='/feedback' element={<Feedback/>}/>
       <Route path='/forgotPassword' element={<ForgotPassword/>}/>
+      <Route path='/profile' element={<Profile/>}/>
       </Routes>
       
       </OrderStoreProvider>
