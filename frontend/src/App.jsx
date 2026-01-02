@@ -6,7 +6,7 @@ import Register from './pages/Register'
 import { Bounce, ToastContainer} from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { AuthStoreProvider } from './store/AuthStore'
-import VerifyEmail from './pages/verifyEmail'
+import VerifyEmail from './pages/VerifyEmail'
 import About from './pages/About'
 import Orders from './pages/Orders'
 import { OrderStoreProvider } from './store/OrderStore'
