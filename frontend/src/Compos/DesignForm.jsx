@@ -2,8 +2,15 @@ import React, { useContext, useState, useRef } from "react";
 import { OrderStore } from "../store/OrderStore";
 import { ClipLoader } from "react-spinners";
 import { Bounce, toast, ToastContainer } from "react-toastify";
-
+import { ShinyButton } from "../components/components/ui/shiny-button";
+import { FlipText } from "../components/components/ui/flip-text";
+import { useInView } from "react-intersection-observer";
+import { ShineBorder } from "../components/components/ui/shine-border";
 const DesignForm = () => {
+  const { ref: headingRef, inView: headingInView } = useInView({
+    triggerOnce: false,
+    threshold: 0.5, 
+  });
   const { handleAddProduct } = useContext(OrderStore);
   const [loader, setLoader] = useState(false);
   const [file, setFile] = useState(null);
@@ -98,10 +105,10 @@ const DesignForm = () => {
     setLoader(false);
     setFile(null);
   };
-
   return (
-    <div className="max-w-2xl mx-auto p-8 rounded-lg m-3">
-      <h2 className="text-4xl font-extrabold mb-6 text-center text-white">Add Design</h2>
+    <div className="max-w-2xl mx-auto p-8 rounded-lg m-3 flex justify-center flex-col"  ref={headingRef}>
+       {!headingInView?<div className="p-4"></div>: <FlipText   word="Add Your Design" className={`text-3xl font-bold text-center mb-8 text-white transition-transform duration-200
+  `} />}
       <form onSubmit={handleSubmit}>
         <div
           className={`mb-8 p-8 border-4 ${
@@ -112,6 +119,7 @@ const DesignForm = () => {
           onDragLeave={handleDragLeave}
           onClick={handleClick}
         >
+        
           <div className="text-gray-500">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -156,7 +164,8 @@ const DesignForm = () => {
             className="hidden"
           />
         </div>
-
+        
+<div className="flex justify-center">
         {loader ? (
           <button
   type="submit"
@@ -166,13 +175,10 @@ const DesignForm = () => {
   <ClipLoader color="#FFFFFF" size={20} />
 </button>
         ) : (
-          <button
-            type="submit"
-            className="btn-15 bg-green-600 text-white "
-          >
-            Add Design
-          </button>
+          <ShinyButton className="bg-pink-500 text-white font-bold text-xl p-3 px-5" type="submit">Add Design</ShinyButton>
         )}
+        </div>
+        
       </form>
     </div>
   );

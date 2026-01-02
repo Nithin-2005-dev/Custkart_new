@@ -24,7 +24,7 @@ pauseOnHover
 theme="colored"
 transition={Bounce}
 />
-      <div className="w-full max-w-md p-8  rounded-lg shadow-lg shadow-slate-500 bg-gray-300 z-40">
+      <div className="w-full max-w-md p-8  rounded-lg shadow-lg shadow-slate-500 bg-gray-300 z-40 bg-opacity-75">
         <div className="text-center">
           <img
             src="\src\assets\CustKart Logo.png"

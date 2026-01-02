@@ -3,11 +3,19 @@ import { Bounce, ToastContainer } from 'react-toastify'
 import { AuthStore } from '../store/AuthStore';
 import { useNavigate } from 'react-router';
 import { ClipLoader } from "react-spinners"
-import { BorderBeam } from '../components/components/ui/border-beam';
 import { ShineBorder } from '../components/components/ui/shine-border';
 import { InteractiveHoverButton } from "../components/components/ui/interactive-hover-button";
-import { FlickeringGrid } from '../components/components/ui/flickering-grid';
+import { MorphingText } from '../components/components/ui/morphing-text';
 const FeedbackForm = () => {
+  const texts = [
+    "We Value Your Feedback",
+    "Your Opinion Matters",
+    "Help Us Improve",
+    "Share Your Experience",
+    "Let Your Voice Be Heard",
+    "Shape the Future",
+    "Every Feedback Counts",
+  ];
     const [loader,setLoader]=useState(false)
     const {getUser,handleFeedback}=useContext(AuthStore)
     const navigate=useNavigate();
@@ -22,20 +30,6 @@ const FeedbackForm = () => {
      },[])
   return (
     <div className="min-h-screen flex flex-col items-center justify-center  text-gray-100">
-{/* <div className="p-2 flex flex-col items-center justify-center">
-  <div className="text-center p-2  rounded-lg max-w-lg ">
-    <h2 className="text-3xl font-bold text-white mb-4 tracking-wide">
-      We Value Your Feedback!
-    </h2>
-    <p className="text-lg text-gray-200 mb-6 leading-relaxed text-justify ">
-      Your experience matters to us. Let us know how we’re doing and how we can make your shopping journey even better. Share your thoughts, suggestions, or concerns, and help us improve our service for you and all our customers.
-    </p>
-    <p className="text-sm text-gray-300 italic">
-      Your feedback makes us better!
-    </p>
-  </div>
-</div> */}
-
 
 
     <ToastContainer
@@ -62,6 +56,11 @@ transition={Bounce}
           />
           <p className="text-slate-500 font-mono font-bold">"Shop smart,Live better"</p>
           <h1 className="text-3xl font-bold mt-2 text-sky-500">Feedback</h1>
+          <MorphingText
+          style={{ transitionDuration: "9s" }}
+  texts={texts}
+  className="text-xl md:text-2xl lg:text-3xl font-bold text-yellow-500"
+/>
         </div>
 
         <form className="space-y-6" onSubmit={async(e)=>{
