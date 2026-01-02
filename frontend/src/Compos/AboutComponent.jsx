@@ -10,7 +10,7 @@ const AboutComponent=()=>{
 
       <div className="flex-1">
         <img
-          src="\src\assets\about.jpg"
+          src=".\about.jpg"
           alt="About Us"
           className="w-full h-auto rounded-lg shadow-lg"
         />

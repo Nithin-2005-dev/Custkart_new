@@ -28,7 +28,7 @@ transition={Bounce}
       <div className="w-full max-w-md p-8  rounded-lg shadow-lg shadow-slate-500 bg-gray-300">
         <div className="text-center">
           <img
-            src="\src\assets\CustKart Logo.png"
+            src=".\CustKart Logo.png"
             alt="Brand Logo"
             className="w-20 mx-auto scale-150"
           />

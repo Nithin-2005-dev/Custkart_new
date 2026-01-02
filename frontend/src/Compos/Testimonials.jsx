@@ -69,7 +69,7 @@ function Testimonials() {
             <div className="bg-white shadow-lg rounded-lg overflow-hidden h-full flex flex-col">
               <figure className="flex-shrink-0">
                 <img
-                  src="/src/assets/cs5.jpg"
+                  src="./cs5.jpg"
                   alt="Official Merchandise Partner for TedX at NIT Durgapur"
                   className="w-full h-64 object-cover"
                 />
@@ -87,7 +87,7 @@ function Testimonials() {
             <div className="bg-white shadow-lg rounded-lg overflow-hidden h-full flex flex-col">
               <figure className="flex-shrink-0">
                 <img
-                  src="/src/assets/cs2.jpg"
+                  src="./cs2.jpg"
                   alt="Official Merchandise Partner for VITBMUN at VIT Bhopal"
                   className="w-full h-64 object-cover"
                 />
@@ -105,7 +105,7 @@ function Testimonials() {
             <div className="bg-white shadow-lg rounded-lg overflow-hidden h-full flex flex-col">
               <figure className="flex-shrink-0">
                 <img
-                  src="/src/assets/cs3.jpg"
+                  src="./cs3.jpg"
                   alt="Official Merchandise Partner at IIT Patna"
                   className="w-full h-64 object-cover"
                 />
@@ -123,7 +123,7 @@ function Testimonials() {
             <div className="bg-white shadow-lg rounded-lg overflow-hidden h-full flex flex-col">
               <figure className="flex-shrink-0">
                 <img
-                  src="/src/assets/cs4.jpg"
+                  src="./cs4.jpg"
                   alt="Quality guaranteed with exceptional value"
                   className="w-full h-64 object-cover"
                 />

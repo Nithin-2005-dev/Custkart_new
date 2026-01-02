@@ -39,7 +39,7 @@ const Hero = () => {
           <div className="relative">
             <img
               className="h-[30rem] lg:max-w-lg rounded-3xl shadow-xl shadow-slate-800 hover:scale-[1.02] transition-transform duration-300 cursor-pointer"
-              src="\src\assets\hero-custkart.webp"
+              src=".\hero-custkart.webp"
               alt="Catalogue"
             />
           </div>

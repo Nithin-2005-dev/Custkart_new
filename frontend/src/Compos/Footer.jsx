@@ -11,7 +11,7 @@ const Footer = () => {
       {/* Logo and Branding */}
       <div className="flex flex-col items-center mb-6">
         <img
-          src="\src\assets\CustKart Logo.png"
+          src=".\CustKart_Logo.png"
           alt="CustomKart Logo"
           className="h-12 mb-2"
         />

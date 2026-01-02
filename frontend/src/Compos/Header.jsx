@@ -20,7 +20,7 @@ const Header = () => {
             <Link to={"/"}>
               <img
                 className="w-auto scale-125 h-8 sm:h-7"
-                src="\src\assets\CustKart Logo.png"
+                src=".\CustKart_Logo.png"
                 alt="CustKart Logo"
               />
             </Link>
